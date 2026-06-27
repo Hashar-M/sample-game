@@ -1,0 +1,234 @@
+:root {
+  color-scheme: light;
+  --bg-top: #f3eee2;
+  --bg-bottom: #dce9f7;
+  --panel: rgba(255, 252, 246, 0.88);
+  --panel-border: rgba(38, 55, 76, 0.12);
+  --text-main: #1d2935;
+  --text-soft: #586879;
+  --accent: #ee6c4d;
+  --accent-dark: #cf5436;
+  --accent-soft: rgba(238, 108, 77, 0.16);
+  --board: #17324a;
+  --board-detail: #274d6b;
+  --target-a: #ffd166;
+  --target-b: #fca311;
+  --shadow: 0 20px 50px rgba(36, 59, 86, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Space Grotesk", sans-serif;
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.85), transparent 28%),
+    linear-gradient(160deg, var(--bg-top), var(--bg-bottom));
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+  padding: 2rem 0;
+}
+
+.hero-panel,
+.arena-panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.hero-panel {
+  padding: 2rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  color: var(--text-soft);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 0.95;
+}
+
+.intro {
+  margin: 1rem 0 0;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin-top: 1.75rem;
+}
+
+.stat-card {
+  padding: 1rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(38, 55, 76, 0.08);
+}
+
+.stat-card strong {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 1.8rem;
+}
+
+.stat-label {
+  color: var(--text-soft);
+  font-size: 0.85rem;
+}
+
+.controls {
+  margin-top: 1.75rem;
+}
+
+.primary-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.9rem 1.4rem;
+  background: linear-gradient(135deg, var(--accent), #f38d68);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(238, 108, 77, 0.28);
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.primary-button:hover,
+.primary-button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px rgba(238, 108, 77, 0.34);
+}
+
+.status-text {
+  margin: 0.85rem 0 0;
+  color: var(--text-soft);
+}
+
+.arena-panel {
+  padding: 1rem;
+}
+
+.game-board {
+  position: relative;
+  min-height: 520px;
+  overflow: hidden;
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent),
+    linear-gradient(135deg, var(--board), var(--board-detail));
+}
+
+.game-board::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px dashed rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+.target {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  background:
+    radial-gradient(circle at 35% 35%, #fff4be, var(--target-a) 35%, var(--target-b) 100%);
+  box-shadow:
+    0 0 0 10px rgba(255, 209, 102, 0.12),
+    0 10px 25px rgba(0, 0, 0, 0.22);
+  transition: transform 100ms ease;
+}
+
+.target:active {
+  transform: scale(0.94);
+}
+
+.board-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(16px);
+  opacity: 0.35;
+}
+
+.board-glow-one {
+  width: 180px;
+  height: 180px;
+  left: -40px;
+  top: -40px;
+  background: var(--accent-soft);
+}
+
+.board-glow-two {
+  width: 220px;
+  height: 220px;
+  right: -70px;
+  bottom: -70px;
+  background: rgba(111, 205, 255, 0.2);
+}
+
+@media (max-width: 860px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    padding: 1rem 0;
+  }
+
+  .game-board {
+    min-height: 420px;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero-panel,
+  .arena-panel {
+    border-radius: 22px;
+  }
+
+  .hero-panel {
+    padding: 1.4rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .game-board {
+    min-height: 360px;
+  }
+
+  .target {
+    width: 62px;
+    height: 62px;
+  }
+}

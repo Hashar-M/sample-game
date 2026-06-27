@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Target Rush</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero-panel">
+        <p class="eyebrow">Static browser game</p>
+        <h1>Target Rush</h1>
+        <p class="intro">
+          Hit as many moving targets as you can in 30 seconds. Each hit adds a point,
+          but every miss subtracts one.
+        </p>
+
+        <div class="stats-grid" aria-label="Game statistics">
+          <article class="stat-card">
+            <span class="stat-label">Score</span>
+            <strong id="score">0</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Time</span>
+            <strong id="time">30</strong>
+          </article>
+          <article class="stat-card">
+            <span class="stat-label">Best</span>
+            <strong id="best-score">0</strong>
+          </article>
+        </div>
+
+        <div class="controls">
+          <button id="start-button" class="primary-button" type="button">Start game</button>
+          <p id="status" class="status-text">Press start to begin.</p>
+        </div>
+      </section>
+
+      <section class="arena-panel">
+        <div id="game-board" class="game-board" aria-label="Game board">
+          <button
+            id="target"
+            class="target"
+            type="button"
+            aria-label="Moving target"
+            hidden
+          ></button>
+          <div class="board-glow board-glow-one"></div>
+          <div class="board-glow board-glow-two"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
