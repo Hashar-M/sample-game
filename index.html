@@ -18,33 +18,58 @@
         <p class="eyebrow">Static browser game</p>
         <h1>Target Rush</h1>
         <p class="intro">
-          Hit as many moving targets as you can in 30 seconds. Each hit adds a point,
-          but every miss subtracts one.
+          Take turns claiming squares by hitting the moving target. Land three in a row
+          before your opponent to win the round.
         </p>
 
         <div class="stats-grid" aria-label="Game statistics">
           <article class="stat-card">
-            <span class="stat-label">Score</span>
-            <strong id="score">0</strong>
+            <span class="stat-label">Player X</span>
+            <strong id="score-x">0</strong>
           </article>
           <article class="stat-card">
-            <span class="stat-label">Time</span>
-            <strong id="time">30</strong>
+            <span class="stat-label">Turn Time</span>
+            <strong id="time">0</strong>
           </article>
           <article class="stat-card">
-            <span class="stat-label">Best</span>
-            <strong id="best-score">0</strong>
+            <span class="stat-label">Player O</span>
+            <strong id="score-o">0</strong>
+          </article>
+        </div>
+
+        <div class="control-stack">
+          <label class="difficulty-control" for="difficulty-select">
+            <span>Difficulty</span>
+            <select id="difficulty-select">
+              <option value="easy">Easy</option>
+              <option value="medium" selected>Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </label>
+
+          <article class="turn-card" aria-live="polite">
+            <span class="stat-label">Current Turn</span>
+            <strong id="current-player">Player X</strong>
           </article>
         </div>
 
         <div class="controls">
-          <button id="start-button" class="primary-button" type="button">Start game</button>
-          <p id="status" class="status-text">Press start to begin.</p>
+          <button id="start-button" class="primary-button" type="button">Start match</button>
+          <p id="status" class="status-text">Press start to begin a new match.</p>
         </div>
       </section>
 
       <section class="arena-panel">
         <div id="game-board" class="game-board" aria-label="Game board">
+          <button class="board-cell" type="button" data-cell-index="0" aria-label="Board cell 1"></button>
+          <button class="board-cell" type="button" data-cell-index="1" aria-label="Board cell 2"></button>
+          <button class="board-cell" type="button" data-cell-index="2" aria-label="Board cell 3"></button>
+          <button class="board-cell" type="button" data-cell-index="3" aria-label="Board cell 4"></button>
+          <button class="board-cell" type="button" data-cell-index="4" aria-label="Board cell 5"></button>
+          <button class="board-cell" type="button" data-cell-index="5" aria-label="Board cell 6"></button>
+          <button class="board-cell" type="button" data-cell-index="6" aria-label="Board cell 7"></button>
+          <button class="board-cell" type="button" data-cell-index="7" aria-label="Board cell 8"></button>
+          <button class="board-cell" type="button" data-cell-index="8" aria-label="Board cell 9"></button>
           <button
             id="target"
             class="target"
