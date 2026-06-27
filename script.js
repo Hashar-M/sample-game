@@ -25,6 +25,11 @@ const difficultySelect = document.getElementById("difficulty-select");
 const gameBoard = document.getElementById("game-board");
 const cellElements = Array.from(document.querySelectorAll(".board-cell"));
 const target = document.getElementById("target");
+const turnCard = currentPlayerElement.closest(".turn-card");
+const winPopup = document.getElementById("win-popup");
+const popupTitle = document.getElementById("popup-title");
+const popupMessage = document.getElementById("popup-message");
+const popupCloseButton = document.getElementById("popup-close");
 
 let scores = { X: 0, O: 0 };
 let boardState = Array(9).fill("");
@@ -92,6 +97,53 @@ const playWinSound = () => {
   ]);
 };
 
+const playCheerSound = async () => {
+  const context = await ensureAudioContext();
+
+  if (!context) {
+    return;
+  }
+
+  const startTime = context.currentTime;
+  const cheerLead = context.createOscillator();
+  const cheerGain = context.createGain();
+  const cheerFilter = context.createBiquadFilter();
+
+  cheerLead.type = "sawtooth";
+  cheerLead.frequency.setValueAtTime(320, startTime);
+  cheerLead.frequency.exponentialRampToValueAtTime(720, startTime + 0.18);
+  cheerLead.frequency.exponentialRampToValueAtTime(540, startTime + 0.4);
+
+  cheerFilter.type = "bandpass";
+  cheerFilter.frequency.setValueAtTime(900, startTime);
+  cheerFilter.Q.value = 1.2;
+
+  cheerGain.gain.setValueAtTime(0.0001, startTime);
+  cheerGain.gain.exponentialRampToValueAtTime(0.06, startTime + 0.05);
+  cheerGain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.48);
+
+  cheerLead.connect(cheerFilter);
+  cheerFilter.connect(cheerGain);
+  cheerGain.connect(context.destination);
+  cheerLead.start(startTime);
+  cheerLead.stop(startTime + 0.48);
+
+  void Promise.all([
+    playTone(784, 0.2, "triangle", 0.05),
+    playTone(987.77, 0.24, "sine", 0.04),
+  ]);
+};
+
+const hideWinPopup = () => {
+  winPopup.hidden = true;
+};
+
+const showWinPopup = (winner) => {
+  popupTitle.textContent = `Player ${winner} wins!`;
+  popupMessage.textContent = `Congratulations Player ${winner}. Press start to play the next round.`;
+  winPopup.hidden = false;
+};
+
 const updateScores = () => {
   scoreXElement.textContent = String(scores.X);
   scoreOElement.textContent = String(scores.O);
@@ -104,6 +156,8 @@ const updateTime = (nextTime) => {
 
 const updateCurrentPlayer = () => {
   currentPlayerElement.textContent = `Player ${currentPlayer}`;
+  turnCard.classList.toggle("player-x", currentPlayer === "X");
+  turnCard.classList.toggle("player-o", currentPlayer === "O");
 };
 
 const clearTimers = () => {
@@ -116,10 +170,15 @@ const clearTimers = () => {
 const renderBoard = () => {
   cellElements.forEach((cellElement, index) => {
     const value = boardState[index];
+    const isActiveCell = index === activeCellIndex && isRoundRunning && !value;
+
     cellElement.textContent = value;
+    cellElement.dataset.preview = isActiveCell ? currentPlayer : "";
     cellElement.classList.toggle("player-x", value === "X");
     cellElement.classList.toggle("player-o", value === "O");
     cellElement.classList.toggle("active-cell", index === activeCellIndex && isRoundRunning);
+    cellElement.classList.toggle("active-player-x", isActiveCell && currentPlayer === "X");
+    cellElement.classList.toggle("active-player-o", isActiveCell && currentPlayer === "O");
     cellElement.disabled = Boolean(value) || !isRoundRunning;
   });
 
@@ -194,10 +253,13 @@ const finishRound = (winner) => {
     scores[winner] += 1;
     updateScores();
     playWinSound();
-    statusElement.textContent = `Player ${winner} wins the round. Press start for the next round.`;
+    void playCheerSound();
+    showWinPopup(winner);
+    statusElement.textContent = `Player ${winner} wins. Press start for the next round.`;
   } else {
     playMissSound();
-    statusElement.textContent = "Round drawn. Press start for a rematch.";
+    hideWinPopup();
+    statusElement.textContent = "Draw. Press start to play again.";
   }
 
   startButton.textContent = "Play next round";
@@ -206,7 +268,7 @@ const finishRound = (winner) => {
 const beginTurn = () => {
   updateCurrentPlayer();
   updateTime(getSelectedDifficulty().turnSeconds);
-  statusElement.textContent = `Player ${currentPlayer}, hit the target to claim a square.`;
+  statusElement.textContent = `Player ${currentPlayer}, hit the dot to claim the highlighted box.`;
 
   if (!chooseActiveCell()) {
     finishRound("");
@@ -244,6 +306,7 @@ const resetBoard = () => {
 
 const startRound = async () => {
   await ensureAudioContext();
+  hideWinPopup();
   resetBoard();
   isRoundRunning = true;
   startButton.disabled = true;
@@ -254,6 +317,14 @@ const startRound = async () => {
 
 startButton.addEventListener("click", () => {
   void startRound();
+});
+
+popupCloseButton.addEventListener("click", hideWinPopup);
+
+winPopup.addEventListener("click", (event) => {
+  if (event.target === winPopup) {
+    hideWinPopup();
+  }
 });
 
 target.addEventListener("click", (event) => {

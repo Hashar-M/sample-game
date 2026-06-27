@@ -18,9 +18,14 @@
         <p class="eyebrow">Static browser game</p>
         <h1>Target Rush</h1>
         <p class="intro">
-          Take turns claiming squares by hitting the moving target. Land three in a row
-          before your opponent to win the round.
+          Hit the moving dot to claim a box. Get 3 in a row before the other player.
         </p>
+
+        <ul class="quick-steps" aria-label="How to play">
+          <li>X starts first.</li>
+          <li>Hit the moving dot to take the highlighted box.</li>
+          <li>Miss the box and the turn moves to the other player.</li>
+        </ul>
 
         <div class="stats-grid" aria-label="Game statistics">
           <article class="stat-card">
@@ -55,7 +60,7 @@
 
         <div class="controls">
           <button id="start-button" class="primary-button" type="button">Start match</button>
-          <p id="status" class="status-text">Press start to begin a new match.</p>
+          <p id="status" class="status-text">Press start to begin.</p>
         </div>
       </section>
 
@@ -82,6 +87,15 @@
         </div>
       </section>
     </main>
+
+    <div id="win-popup" class="popup-backdrop" hidden>
+      <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+        <p class="popup-kicker">Congratulations</p>
+        <h2 id="popup-title" class="popup-title">Player X wins!</h2>
+        <p id="popup-message" class="popup-message">Great job. Press start to play the next round.</p>
+        <button id="popup-close" class="primary-button popup-button" type="button">Close</button>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>

@@ -1,6 +1,6 @@
 # Target Rush
 
-Target Rush is a simple static browser game built with HTML, CSS, and JavaScript. It works as-is in any static hosting environment, including GitHub Pages.
+Target Rush is a small browser game made with HTML, CSS, and JavaScript. Open it in a browser and play.
 
 ## Files
 
@@ -11,10 +11,10 @@ Target Rush is a simple static browser game built with HTML, CSS, and JavaScript
 
 ## Run locally
 
-### Option 1: open directly in a browser
+### Option 1: open in a browser
 
 1. Open `index.html` in your browser.
-2. Click **Start game**.
+2. Click **Start match**.
 
 ### Option 2: run a local static server
 
@@ -25,6 +25,13 @@ python3 -m http.server 8000
 ```
 
 Then open `http://localhost:8000` in your browser.
+
+## How to play
+
+1. Player X starts.
+2. Hit the moving dot to take the highlighted box.
+3. Miss it or run out of time and the turn goes to the other player.
+4. Get 3 in a row to win.
 
 ## How to work on it
 
